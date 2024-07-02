@@ -1,0 +1,436 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[autostyle=true]{csquotes}
+\usepackage{polyglossia, amsmath, amssymb, amsthm, IEEEtrantools,graphicx, array, fancyhdr, fourier-orns, enumitem}
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{%
+    \markright{\thesection\ #1}
+    }
+\fancyhead[R]{\bfseries\small\emph{\author{V. Palmieri}}}
+\fancyhead[L]{\bfseries\rightmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0.5pt} % space for the rule
+\fancypagestyle{plain}{%
+    \fancyhead{} % get rid of headers on plain pages
+    \renewcommand{\headrulewidth}{0.6pt} % and the line
+}
+\newcommand{\ud}{\,\mathrm{d}}
+\setdefaultlanguage{italian}
+\author{Vito Palmieri}
+\title{Risoluzione ODE, Corso di Analisi Matematica 2, Ingegneria Informatica, 2024}
+\setlength\parskip{1em plus 2pt}
+\setlength\topmargin{.3in}
+\setlength\headheight{15pt}
+% Insert theorems here
+\usepackage[bookmarks, hidelinks]{hyperref}
+\usepackage[all]{hypcap}
+\newcommand*{\nsection}[1]{
+    \section*{#1}
+    \addcontentsline{toc}{section}{#1}
+}
+\setcounter{secnumdepth}{3}
+\renewcommand{\thesection}{}
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+\nsection{Formulario}
+\subsection[ODE Lineari Primo Ordine]{ODE Lineari del Primo Ordine}
+Data un'ODE del tipo:
+\begin{equation*}
+    y' + a_0(x)y = g(x)
+\end{equation*}
+dove $a_0(x)$ e $g(x)$ sono funzioni continue, la soluzione generale dell'ODE è data da:
+\begin{equation*}
+    y(x) = e^{-A_0(x)} \left(c + \int g(x)e^{A_0(x)} \ud x\right), \quad c \in \mathbb{R}
+\end{equation*}
+
+dove $A_0$ è primitiva di $a_0(x)$
+
+Se la ODE è in forma normale $(y' = -a_0(x)y + g(x))$ allora invertiamo i segni per $A_0(x)$:
+\begin{equation*}
+    y(x) = e^{A_0(x)} \left(c + \int g(x)e^{-A_0(x)} \ud x\right), \quad c \in \mathbb{R}
+\end{equation*}
+
+\subsection[ODE Lineari Omogenee]{ODE Lineari Omogenee di Secondo Ordine e Superiore a Coefficienti Costanti}
+Data un'ODE del tipo:
+\begin{equation*}
+    y'' + a_1(x)y' + a_0(x)y = 0
+\end{equation*}
+dove $a_1(x)$ ed $a_0(x)$ sono costanti, chiamiamo equazione caratteristica della ODE l'equazione
+\begin{equation*}
+    \lambda^2 + a_1\lambda + a_0 = 0
+\end{equation*}
+dove l'esponente di $\lambda$ è pari all'ordine di derivazione del corrispondente termine della ODE (chiaramente, nel caso di termine non derivato (eg. $a_0(x)y$) si considera come derivato 0 volte, per cui l'esponente di $\lambda$ per il termine corrispondente sarà anch'esso $0$, risultando $\lambda^0=1$).
+
+A seconda del discriminante $\Delta$ le soluzioni della ODE saranno:
+\begin{itemize}
+    \item $y(x) = c_1e^{\lambda_1x} + c_2e^{\lambda_2x}, \quad \text{se } \Delta > 0$
+    \item $y(x) = c_1e^{\lambda x} + c_2xe^{\lambda x}, \quad \text{se } \Delta = 0$
+    \item $y(x) = c_1e^{\alpha x}\cos(\beta x) + c_2e^{\alpha x}\sin(\beta x), \quad \text{se } \Delta < 0 \quad$
+\end{itemize}
+dove, i seguenti termini presenti nelle soluzioni date, sono le rispettive soluzioni dell'equazione caratteristica:
+\begin{itemize}
+    \item $\lambda_1, \lambda_2$
+    \item $\lambda$
+    \item $\lambda = \alpha \pm i\beta$
+\end{itemize}
+Per ODE di grado superiore al secondo (ma sempre lineari, omogenee e a coefficienti costanti) valutiamo tutte le soluzioni dell'equazione caratteristica dell'ODE. Il seguante è un esempio.
+
+\noindent Data l'ODE di sesto ordine:
+\begin{equation*}
+    y^{(6)}-9y^{(5)}+55y^{(4)}-165y'''+150y''+148y'-232y=0
+\end{equation*}
+La corrispondente equazione caratteristica è:
+\begin{equation*}
+    \lambda^6-9\lambda^5+55\lambda^4-165\lambda^3+150\lambda^2+148\lambda-232=0
+\end{equation*}
+che può essere fattorizzata come:
+\begin{equation*}
+    (\lambda+1)(\lambda-2)^3(\lambda-2-5i)(\lambda-2+5i) = 0
+\end{equation*}
+e le sue soluzioni saranno $\lambda = -1$, $\lambda = 2$ con molteplicità algebrica pari a 3, e $\lambda = 2\pm5i$, dove $\alpha = 2$ e $\beta = 5$.
+
+\noindent La soluzione generale dell'ODE sarà quindi:
+\begin{equation*}
+    \begin{array}{rl}
+        \begin{array}{rcl}
+        y(x) & = & c_1e^{-x} + c_2e^{2x} + c_3xe^{2x} + c_4x^2e^{2x}\\
+        && +\, c_5e^{2x}\cos(5x) + c_6e^{2x}\sin(5x)
+        \end{array},
+        & c_1, c_2, c_3, c_4, c_5, c_6 \in \mathbb{R}
+    \end{array}
+\end{equation*}
+
+\subsection[ODE Lineari Non Omogenee Particolari]{ODE Lineari Non Omogenee a Coefficienti Costanti e con Termini Noti Esponenziali, Polinomiali o Trigonometrici}
+In questa sezione consideriamo ODE di due categorie: quelle con termini noti dati da combinazioni di funzioni esponenziali e polinomiali, e quelle con termini noti dati da combinazioni di funzioni esponenziali, polinomiali e trigonometriche (esclusivamente seno e coseno).
+
+\subsubsection[\texorpdfstring{$f(x)$ da Esponenziale e Polinomio}{f(x) da Esponenziale e Polinomio}]{Termine Noto Formato dal Prodotto di una Funzione Esponenziale e un Polinomio}
+Data un'ODE del tipo:
+\begin{equation*}
+       y^{(n)} + a_1y^{(n-1)} + \cdots + a_{n-1}y' + a_ny = e^{\lambda_1 x}p_m(x)
+\end{equation*}
+dove $p_m(x)$ è un polinomio di grado $m$, e data l'equazione caratteristica dell'omogenea associata all'ODE:
+\begin{equation*}
+    P(\lambda) = \lambda^n + a_1\lambda^{n-1} + \ldots + a_{n-1}\lambda + a_n
+\end{equation*}
+se vale che $P(\lambda_1) \neq 0$ allora la soluzione generale dell'ODE sarà:
+\begin{equation*}
+    y(x) = e^{\lambda_1 x}q_m(x)
+\end{equation*}
+dove $q_m(x)$ è un polinomio generico di grado $m$ del tipo $q_m(x) = a_0x^m + a_1x^{m-1} + \ldots + a_{m-1}x+a_m$.
+
+Se invece vale che $P(\lambda_1) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1) = h$, allora una soluzione particolare dell'ODE sarà:
+\begin{equation*}
+    y(x) = x^he^{\lambda_1 x}q_m(x)
+\end{equation*}
+dove $q_m(x)$ è un polinomio generico simile a quello definito sopra.
+
+\subsubsection[\texorpdfstring{$f(x)$ da Esponenziale, Polinomio e Trig.}{f(x) da Esponenziale, Polinomio e Trig.}]{Termine Noto Formato dal Prodotto di una Funzione Esponenziale con la Somma tra, un Polinomio per una Funzione Coseno, e un Polinomio per una Funzione Seno}
+Data un'ODE del tipo:
+\begin{equation*}
+    y^{(n)} + a_1y^{(n-1)} + \ldots + a_{n-1}y' + a_ny = e^{\lambda_1 x}[p_m(x)\cos(\mu x) + r_k(x)\sin(\mu x)]
+\end{equation*}
+dove $p_m(x)$ e $r_k(x)$ sono due polinomi di grado, rispettivamente, $m$ e $k$, e data l'equazione caratteristica dell'omogenea associata all'ODE:
+\begin{equation*}
+    P(\lambda) = \lambda^n + a_1\lambda^{n-1} + \ldots + a_{n-1}\lambda + a_n
+\end{equation*}
+se vale che $P(\lambda_1 \pm i\mu) \neq 0$ allora la soluzione generale dell'ODE sarà:
+\begin{equation*}
+    y(x) = e^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
+\end{equation*}
+dove $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono due polinomi generici di grado $\bar{m}$ e del tipo:
+\begin{equation*}
+    \begin{array}{l}
+    q_{\bar{m}}(x) = a_0x^{\bar{m}} + a_1x^{\bar{m}-1} + \ldots + a_{\bar{m}-1}x+a_{\bar{m}} \\
+    s_{\bar{m}}(x) = b_0x^{\bar{m}} + b_1x^{\bar{m}-1} + \ldots + b_{\bar{m}-1}x+b_{\bar{m}}
+    \end{array}
+\end{equation*}
+È fondamentale tenere a mente che i coefficienti di $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono indipendenti tra loro.
+
+Se invece vale che $P(\lambda_1\pm i\mu) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1\pm i\mu) = h$ (notare come due soluzioni complesse coniugate tra loro contano come una per la molteplicità), allora la soluzione generale dell'ODE sarà:
+\begin{equation*}
+    y(x) = x^he^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
+\end{equation*}
+dove $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono due polinomi generici simili a quelli definiti sopra.
+
+\subsection[Metodo di Variazione delle Costanti]{ODE Lineari Non Omogenee con Termine Noto Generico (Metodo di Variazione delle Costanti)}
+Si può dimostrare che la soluzione di una qualsiasi ODE lineare non omogenea è data da:
+\begin{equation}\label{eq:odegen}
+    V(x)=V_0(x)+V_p(x)
+\end{equation}
+dove $V_0(x)$ è la soluzione dell'omogenea associata all'ODE e $V_p(x)$ è una qualsiasi soluzione particolare dell'ODE non omogenea.
+
+Data un'ODE del tipo:
+\begin{equation}\label{eq:ode}
+    y'' + ay' + by = f(x)
+\end{equation}
+dove $a$ e $b$ sono costanti ed $f(x)$ è una funzione continua, sia l'integrale generale della sua omogenea associata una funzione del tipo:
+\begin{equation*}
+    V_0(x) = c_1y_1(x) + c_2y_2(x), \quad c_1, c_2 \in \mathbb{R}
+\end{equation*}
+per determinare un integrale generale di (\ref{eq:ode}) basta conoscere le due funzioni $y_1(x)$ e $y_2(x)$, purché esse siano linearmente indipendenti tra loro.
+
+Un integrale particolare di (\ref{eq:ode}) è dato dall'equazione:
+\begin{equation}\label{eq:odep}
+    V_p(x) = \gamma_1y_1(x) + \gamma_2y_2(x)
+\end{equation}
+dove le derivate prime di $\gamma_1$ e $\gamma_2$ risolvono il sistema:
+\begin{equation*}
+    \begin{cases}
+        \gamma'_1(x)y_1(x) - \gamma'_2(x)y_2(x) = 0 \\
+        \gamma'_1(x)y'_1(x) - \gamma'_2(x)y'_2(x) = f(x)
+    \end{cases}
+\end{equation*}
+(essendo $y_1(x)$ e $y_2(x)$ linearmente indipendenti, il sistema rispetta il teorema di Cramer e ammette una soluzione unica).
+
+Risolto il sistema integriamo le soluzioni per trovare $\gamma_1$ e $\gamma_2$, mettiamo poi i risultati in (\ref{eq:odep}) e otteniamo $V_p(x)$.
+L'equazione generale dell'ODE sarà quindi data dalla (\ref{eq:odegen}).
+
+\subsection[Equazioni a Variabili Separabili]{ODE del Primo Ordine a Variabili Separabili}
+
+Data un'ODE del tipo:
+\begin{equation}\label{eq:sep}
+    y'(x) = f(x)\cdot g(y(x))
+\end{equation}
+dove $f(x)$ e $g(y(x))$ sono funzioni continue, per trovare la soluzione generale dell'ODE seguiamo questo procedimento (userò $g(y)$ per indicare $g(y(x))$ per comodità di scrittura):
+\begin{enumerate}
+    \item Riscriviamo la derivata
+          \begin{equation*}
+              \frac{\mathrm{d}y}{\mathrm{d}x} = f(x)\cdot g(y)
+          \end{equation*}
+    \item ``Separiamo'' le variabili ai due membri dell'equazione
+          \begin{equation*}
+              \frac{\mathrm{d}x}{g(y)} = f(x)\mathrm{d}x
+          \end{equation*}
+    \begin{enumerate}
+        \item se $g(y)$ può assumere $0$ come valore dobbiamo controllare se ciononostante verifica la (\ref{eq:sep}). Se questo è il caso, questa sarà una soluzione della ODE di cui dovremo tener conto alla fine.
+    \end{enumerate}
+    \item Integriamo entrambi i membri dell'equazione
+          \begin{equation*}
+              \int \frac{\mathrm{d}y}{g(y)} = \int f(x)\mathrm{d}x
+          \end{equation*}
+    \item Avremo a sinistra una funzione di $y$ e a destra una funzione di $x$. Questa è una soluzione implicita della ODE.
+    \begin{enumerate}
+        \item se vogliamo (ed è possibile per i domini delle funzioni) possiamo riscrivere tutta l'equazione in forma esplicita ricavando $y(x)$.
+    \end{enumerate}
+    \item Mettiamo insieme le soluzioni trovate in 2.a e 4 per ottenere la soluzione generale della ODE.
+\end{enumerate}
+
+\subsection[Equazioni di Bernoulli]{Equazioni Differenziali di Bernoulli}
+Un'equazione differenziale di Bernoulli è un'equazione differenziale non lineare, non omogenea, e del primo ordine, nella forma:
+\begin{equation*}
+    y'(x) = a(x)y(x) + b(x)y^\alpha(x), \quad \alpha \in \mathbb{R} - \{0,1\}
+\end{equation*}
+Per risolvere un'equazione di Bernoulli seguiamo questo procedimento:
+\begin{enumerate}
+    \item Dividiamo tutto per $y^\alpha(x)$
+          \begin{IEEEeqnarray}{rCl}
+                \frac{y'(x)}{y^\alpha(x)} & = & a(x)\frac{y(x)}{y^\alpha(x)} + b(x) \nonumber\\
+                \frac{y'(x)}{y^\alpha(x)} & = & a(x)y^{1-\alpha}(x) + b(x)\label{eq:bern}
+          \end{IEEEeqnarray}
+    \begin{enumerate}
+        \item ci sono casi in cui alcuni valori possono non essere validi per il dominio della funzione trovata, i valori vanno controllati individualmente, questo avviene in maniera simile a come delineato al punto 2.a della sezione precedente.
+    \end{enumerate}
+    \item Poniamo $y^{1-\alpha}(x) = z(x)$
+    \item Deriviamo entrambi i membri di $y^{1-\alpha}(x) = z(x)$
+          \begin{IEEEeqnarray*}{rCl}
+                z'(x) & = & (1-\alpha)y^{-\alpha}(x)y'(x) \\
+                z'(x) & = &\displaystyle (1-\alpha)\frac{y'(x)}{y^\alpha(x)} \\
+                \frac{z'(x)}{1-\alpha} & = &\displaystyle \frac{y'(x)}{y^\alpha(x)}
+          \end{IEEEeqnarray*}
+    \item Sostituiamo nella (\ref{eq:bern})
+          \begin{equation*}
+              \frac{z'(x)}{1-\alpha} = a(x)z(x) + b(x)
+          \end{equation*}
+    \item Questa è una semplice non omogenea del primo ordine, la risolviamo e otteniamo $z(x)$
+    \item Sostituiamo $z(x)$ in $y^{1-\alpha}(x) = z(x)$ e otteniamo $y(x)$
+    \item Per completare la soluzione generale della ODE, mettiamo insieme le soluzioni trovate in 1.a e 6.
+\end{enumerate}
+\clearpage
+\nsection{Alcune Spiegazioni Dettagliate}
+
+\setcounter{subsection}{0}
+\renewcommand*{\theHsubsection}{chX.\the\value{subsection}}
+\subsection{Categorizzazione}
+In questa sezione avremo a che fare con ODE lineari non omogenee a coefficienti costanti. Possiamo dividere questa categoria di equazioni differenziali in 3 sottocategorie, a seconda della somiglianza del termine noto $g(x)$ con le seguenti funzioni generiche:
+\begin{itemize}
+    \item $e^{\bar{\lambda} x}p_m(x)$, dove $p_m(x)$ è un polinomio di grado $m$;
+    \item $e^{\bar{\lambda} x}[p_m(x)\cos{(\mu x)}+r_k(x)\cos{(\mu x)}]$, dove $p_m(x)$ e $r_k(x)$ sono due polinomi rispettivamente di grado $m$ ed $k$.
+    \item La terza categoria comprende tutte le altre possibili forme di $g(x)$.
+\end{itemize}
+
+\subsection[\texorpdfstring{$g(x)$ è Prodotto di Esponenziale e Polinomio}{g(x) è Prodotto di Esponenziale e Polinomio}]{Soluzione per $g(x)$ Simile ad $e^{\bar{\lambda} x}p_m(x)$}
+
+\subsubsection{Operazioni Preliminari}
+Sappiamo che l'integrale generale di un'ODE lineare è dato da $V=V_0+V_p$, dove:
+\begin{itemize}
+    \item $V$ è l'integrale generale dell'ODE
+    \item $V_0$ è l'integrale generale dell'omogenea associata all'ODE
+    \item $V_p$ è un qualsiasi integrale particolare dell'ODE
+\end{itemize}
+
+\noindent Calcoliamo l'integrale generale dell'omogenea associata all'ODE, che prenderà la denominazione $y_0(x)$.
+
+\noindent Nel farlo, ci troveremo quasi sicuramente a lavorare anche con l'equazione caratteristica dell'omogenea associata all'ODE, che denomineremo $P(\lambda)$ in quanto tornerà utile al passo successivo.
+
+\subsubsection[\texorpdfstring{Calcolo della $k$ di $x^k$}{Calcolo di k da Formula Risolutiva}]{Calcolo del Valore di $k$ (Esponente di $x$ nella Formula Risolutiva)}
+Controlliamo se il nostro $\bar{\lambda}$ è soluzione di $P(\lambda)$\footnote[1]{Chiaramente se abbiamo $g(x)=p_m(x)$, con il termine $e^{\bar{\lambda}x}$ assente, allora $\bar{\lambda}=0$}.
+
+\noindent Poniamo $P(\bar{\lambda})=0$. Questo ci permetterà di porre un parametro $k$ uguale alla molteplicità algebrica di $\bar{\lambda}$ come soluzione.
+
+\noindent Ad esempio, se $P(\bar{\lambda})\neq 0$ (ossia $\bar{\lambda}$ non è soluzione), avremo $k=0$.
+
+\noindent Se invece avessimo un caso come $\bar{\lambda}=3$ e $P(\lambda)=\lambda^2-6\lambda+9=(\lambda-3)^2$, $\bar{\lambda}$ è soluzione con $m.a.=2$, per cui $k=2$.
+
+\subsubsection[Formula Risolutiva]{Introduzione della Formula Risolutiva}
+La formula risolutiva che ci fornisce l'integrale particolare è $x^k e^{\bar{\lambda} x}q_m(x)$, dove:
+\begin{itemize}
+    \item $k$ è il valore che abbiamo trovato prima (ovviamente, per $k=0$, $x^k=1$);
+    \item $q_m(x)$ è un polinomio generico di grado $m$ (ad esempio per $m=4$, $q_4(x)=ax^4+bx^3+cx^2+dx+e$ oppure, per $m=0$, avremmo $q_0(x)=a$).
+\end{itemize}
+
+\subsubsection[\texorpdfstring{Coefficienti di $q_m(x)$}{Coefficienti di q(x)}]{Trovare il Valore dei Coefficienti dei Termini di $q_m(x)$}
+Per trovare il valore dei coefficienti del polinomio $q_m(x)$ consideriamo $A(x)=x^k e^{\bar{\lambda} x}q_m(x)$ come effettiva soluzione della nostra ODE. Di conseguenza, possiamo sostituire $A^{(n)}(x)$ al posto di ogni termine $y^{(n)}$. La soluzione avverrà quindi in questo modo:
+\begin{enumerate}[label=\alph{enumi}.]
+	\item Calcoliamo tutte le derivate di $A(x)$ fino alla derivata n-esima, dove n è l'ordine della ODE, sostituendo i risultati nel lato sinistro della nostra equazione iniziale.
+	
+	\item Facendo un esempio per un generico caso di ODE di secondo ordine, avremo:
+	\begin{equation*}
+        \begin{array}{c}
+            y''+2y'+3y=g(x)\\
+            \Downarrow \\
+            A''(x)+2A'(x)+3A(x)=g(x)
+        \end{array}
+    \end{equation*}	
+	
+    \item Osserviamo che da entrambi i lati abbiamo un polinomio. Nel caso di $\bar{\lambda}\neq 0$ i polinomi saranno moltiplicati da $e^{\bar{\lambda}x}$. Essendo un'equazione, ciò che è a destra deve essere anche a sinistra.
+	
+	\item Facendo un diverso esempio generico, se a destra avessimo un termine noto come $e^{2x}(x^3+4x^2)$ e a sinistra (come risultato della somma delle varie derivate di $A(x)$) $e^{2x}[(a+2b)x^3+(c-d)x^2+(b+c)x+(d+c+a)]$\footnote[2]{Francamente non so se un risultato del genere sia possibile, l'esempio ha solo il fine di spiegare le meccaniche algebriche della soluzione} (supponendo che $k=0$), sapendo che i coefficienti dei termini del polinomio devono essere identici per sostenere l'uguaglianza, formeremo un sistema, che nel caso dell'esempio sarà:
+	\begin{equation*}
+        \begin{cases}
+            a+2b=1 \\
+            c-d=4 \\
+            b+c=0 \\
+            d+c+a=0
+        \end{cases}
+    \end{equation*}
+	
+    \item Risolvendo il sistema, otterremo quindi i valori dei coefficienti di $q_m(x)$ (che nel caso dell'esempio sono $a=\frac{5}{2}$, $b=-\frac{3}{4}$, $c=\frac{3}{4}$ e $d=-\frac{13}{4}$).
+\end{enumerate}
+
+\subsubsection[Integrale Generale]{Integrale Generale dell'ODE}
+Possiamo quindi concludere che un integrale particolare dell'ODE è proprio $\bar{A}(x)=x^k e^{\bar{\lambda}x}\bar{q}_m(x)$, dove $\bar{q}_m(x)$ è il polinomio generico in cui sono stati però inseriti i valori dei coefficienti $a$, $b$, ecc.
+
+\noindent Tornando alla formula $V=V_0+V_p$ possiamo quindi notiamo di avere a disposizione gli elementi per calcolare $V$, che sarà uguale a $y_0(x)+\bar{A}(x)$\footnote[3]{Facendo questa operazione è importante ricordare di riportare anche il variare delle costanti di $y_0(x)$ in $\mathbb{R}$ (e.g. $c_1,c_2\in\mathbb{R}$)} e, genericamente, espresso con $y(x)$.
+
+\subsection[\texorpdfstring{$g(x)$ è Combinazione di Espon. Polin. e Trig.}{g(x) da Esponenziale, Polinomio e Trig.}]{Soluzione per $g(x)$ Simile ad $e^{\bar{\lambda} x}[p_m(x)\cos{(\mu x)}+r_k(x)\cos{(\mu x)}]$}
+
+\subsubsection{Operazioni Preliminari}
+Sappiamo che l'integrale generale di un'ODE lineare è dato da $V=V_0+V_p$, dove:
+\begin{itemize}
+	\item $V$ è l'integrale generale dell'ODE
+	\item $V_0$ è l'integrale generale dell'omogenea associata all'ODE
+	\item $V_p$ è un qualsiasi integrale particolare dell'ODE
+\end{itemize}
+Calcoliamo l'integrale generale dell'omogenea associata all'ODE, che prenderà la denominazione $y_0(x)$.
+
+\noindent Nel farlo, ci troveremo quasi sicuramente a lavorare anche con l'equazione caratteristica dell'omogenea associata all'ODE, che denomineremo $P(\lambda)$ in quanto tornerà utile al passo successivo.
+
+\subsubsection[\texorpdfstring{Calcolo della $k$ di $x^k$}{Calcolo di k da Formula Risolutiva}]{Calcolo del Valore di $k$ (Esponente di $x$ nella Formula Risolutiva)}
+Dobbiamo controllare se $\bar{\lambda}\pm\mu i$ è soluzione di $P(\lambda)$\footnotemark[1].
+
+\noindent Poniamo $P(\bar{\lambda}\pm\mu i)=0$. Questo ci permetterà di porre un parametro $k$ uguale alla molteplicità algebrica di $\bar{\lambda}\pm\mu i$ come soluzione.
+
+\noindent Ad esempio, se $P(\bar{\lambda}\pm\mu i)\neq0$ (ossia $\bar{\lambda}\pm\mu i$ non è soluzione), avremo $k=0$.
+
+\noindent Considerando invece il caso in cui $\bar{\lambda}=2$, $\mu=1$ e $P(\lambda)=\lambda^2-4\lambda+5=0$, dove $\bar{\lambda}\pm\mu i$ è soluzione dell'equazione, è importante considerare il fatto che, nonostante in questo caso avremmo a che fare con due soluzioni complesse coniugate, consideriamo comunque la $m.a.=1$ (perché le singole soluzioni avrebbero proprio $m.a.=1$), per cui avremo $k=1$.
+
+\subsubsection[Formula Risolutiva]{Introduzione della Formula Risolutiva}
+La formula risolutiva per l'integrale particolare è $x^ke^{\bar{\lambda} x}[q_{\overline{m}}(x)\cos{(\mu x)}+s_{\overline{m}}(x)\cos{(\mu x)}]$, dove:
+\begin{itemize}
+    \item$k$ è il valore che abbiamo trovato prima (ovviamente, per $k=0$, $x^k=1$);
+    \item$\overline{m}$ è il grado più alto tra quello di $p_m(x)$ e $r_k(x)$ (in altre parole, $\overline{m}=\max{\{m,k\}}$);
+	\item $q_{\overline{m}(x)}$ è un polinomio generico di grado $\overline{m}$ (ad esempio per $\overline{m}=4$, $q_4(x)=ax^4+bx^3+cx^2+dx+e$ oppure, per $\overline{m}=0$, avremmo $q_0(x)=a$);
+	\item $s_{\overline{m}(x)}$ è un polinomio generico di grado $\overline{m}$ con coefficienti diversi da quelli di $q_{\overline{m}(x)}$.
+\end{itemize}
+
+\subsubsection[\texorpdfstring{Coefficienti di $q_{\overline{m}(x)}$ e $s_{\overline{m}(x)}$}{Coefficienti di q(x) ed s(x)}]{Trovare il Valore dei Coefficienti dei Termini di $q_{\overline{m}(x)}$ e $s_{\overline{m}(x)}$}
+Per trovare il valore dei coefficienti del polinomio $q_m(x)$ consideriamo $A(x)=x^ke^{\bar{\lambda} x}[q_{\overline{m}(x)}\cos{(\mu x)}+s_{\overline{m}(x)}\sin{(\mu x)}]$ come effettiva soluzione della nostra ODE. Di conseguenza, possiamo sostituire $A^{(n)}(x)$ al posto di ogni termine $y^{(n)}$. La soluzione avverrà quindi in questo modo:
+\begin{enumerate}[label=\alph{enumi}.]
+	\item Calcoliamo tutte le derivate di $A(x)$ fino alla derivata n-esima, dove n è l'ordine della ODE, sostituendo i risultati nel lato sinistro della nostra equazione iniziale.
+	
+	\item Facendo un esempio per un generico caso di ODE di secondo ordine, avremo:
+    \begin{equation*}
+        \begin{array}{c}
+            y''+2y'+3y=g(x)\\
+            \Downarrow \\
+            A''(x)+2A'(x)+3A(x)=g(x)
+        \end{array}
+    \end{equation*}
+	
+    \item Osserviamo che da entrambi i lati abbiamo un termine seno e un termine coseno entrambi moltiplicati per uno stesso $e^{\bar{\lambda}x}$ ed $x^k$ (nel caso in cui $\bar{\lambda}\neq 0$ e $k\neq 0$), oltre che ad essere moltiplicati per un polinomio, che è spesso un valore costante, ma non necessariamente (e.g. $2\sin{(3x)}$ a destra è moltiplicato solo da 2, "polinomio" di grado 0). Trattandosi di un'equazione, ciò che è a destra deve essere anche a sinistra.
+	
+	\item Facendo un diverso esempio generico, se a destra avessimo un termine noto come $2e^{2x}\sin{(4x)}$ e a sinistra (come risultato della somma delle varie derivate di $A(x)$) $e^{2x}[(-3b+5a)\cos{(4x)}+(8a-3b)\sin{(4x)}]$\footnotemark[2] (supponendo che $k=0$), sapendo che i coefficienti di seno e coseno devono essere identici a destra e sinistra per sostenere l'uguaglianza, formeremo un sistema, che nel caso dell'esempio sarà:
+    \begin{equation*}
+        \begin{cases}
+            -3b+5a=0 \\
+            8a-3b=2
+        \end{cases}
+    \end{equation*}
+	
+    \item Risolvendo il sistema, otterremo quindi i valori dei coefficienti di $q_{\overline{m}(x)}$ e $s_{\overline{m}(x)}$ (che nel caso dell'esempio sono $a=\frac{2}{3}$ per $q_{\overline{m}(x)}$ e $b=\frac{10}{9}$ per $s_{\overline{m}(x)}$).
+\end{enumerate}
+
+\subsubsection[Integrale Generale]{Integrale Generale dell'ODE}
+Possiamo quindi concludere che un integrale particolare dell'ODE è proprio $\bar{A}(x)=x^ke^{\bar{\lambda} x}[\bar{q}_{\overline{m}(x)}\cos{(\mu x)}+\bar{s}_{\overline{m}(x)}\sin{(\mu x)}]$, dove $\bar{q}_{\overline{m}(x)}$ e $\bar{s}_{\overline{m}(x)}$ sono i due polinomi generici in cui sono stati però inseriti i valori dei rispettivi coefficienti $a$, $b$, ecc.
+
+\noindent Tornando alla formula $V=V_0+V_p$ , possiamo notare di avere a disposizione gli elementi per calcolare $V$, che sarà uguale a $y_0(x)+\bar{A}(x)$\footnotemark[3] e, genericamente, espresso con $y(x)$.
+
+\subsection[Termine Noto Generico]{Soluzione per $g(x)$ Generico (Metodo di Variazione delle Costanti)}
+
+\subsubsection{Operazioni Preliminari}
+Sappiamo che l'integrale generale di un'ODE lineare è dato da $V=V_0+V_p$, dove:
+\begin{itemize}
+	\item $V$ è l'integrale generale dell'ODE
+	\item $V_0$ è l'integrale generale dell'omogenea associata all'ODE
+	\item $V_p$ è un qualsiasi integrale particolare dell'ODE
+\end{itemize}
+Calcoliamo l'integrale generale dell'omogenea associata all'ODE, che prenderà la denominazione $y_0(x)$.
+
+\noindent Nel farlo, ci troveremo un integrale nella forma $y_0(x)=c_1y_1(x)+c_2y_2(x),$ $c_1,c_2\in\mathbb{R}$ (per ODE di secondo ordine), per via delle formule risolutive di ODE lineari omogenee a coefficienti costanti, dove $y_1(x)$ e $y_2(x)$ sono polinomi, seni e coseni, esponenziali, o combinazioni lineari dei tre.
+
+\subsubsection[Integrale Particolare]{Troviamo un Possibile Integrale Particolare di $g(x)$}
+Una funzione del tipo $y_p(x)=c_1(x)y_1(x)+c_2(x)y_2(x)$ è un integrale particolare dell'ODE, purché:
+\begin{itemize}
+	\item Le funzioni $y_1(x)$ e $y_2(x)$ siano integrali particolari dell'omogenea associata all'ODE e siano linearmente indipendenti tra loro;
+	\item $c_1(x)$ e $c_2(x)$ siano due funzioni tali che le loro derivate prime risolvano il sistema:
+	\begin{equation*}
+        \begin{cases}
+            c'_1(x)y_1(x)+c'_2(x)y_2(x)=0 \\
+            c'_1(x)y'_1(x)+c'_2(x)y'_2(x)=g(x)
+        \end{cases}
+    \end{equation*}
+\end{itemize}
+\subsubsection[\texorpdfstring{Calcolo di $c1(x)$ e $c_2(x)$}{Calcolo di c1(x) e c2(x)}]{Troviamo il Valore di $c_1(x)$ e $c_2(x)$}
+Per trovare le due funzioni dovremo risolvere il sistema prima citato, trovando il valore di $c'_1(x)$ e $c'_2(x)$. Chiaramente, si può lavorare a seconda delle proprie preferenze: sostituzione, riduzione, metodo di Cramer, ecc.
+
+\noindent Fatto ciò, si dovrà calcolare l'integrale indefinito dei due risultati trovati. Ad esempio, trovandoci davanti a $c'_1(x)=4x^2$ e $c'_2(x)=3x$, volendo trovare i corrispondenti $c_1(x)$ e $c_2(x)$, dovremo svolgere le operazioni $c_1(x)=\int{c'_1(x)~dx}$ e $c_2(x)=\int{c'_2(x)~dx}$, che avranno per risultato, in questo esempio, $c_1(x)=\frac{4}{3}x^3+k_1,~k_1\in\mathbb{R}$ e $c_2(x)=\frac{3}{2}x^2+k_2,~k_2\in\mathbb{R}$.
+
+\noindent Per semplicità, nella vasta maggior parte dei casi, assegniamo alle costanti di integrazione il valore di 0.
+
+\subsubsection[Integrale Generale]{Calcoliamo l'Integrale Generale}
+Possiamo quindi concludere che un integrale particolare dell'ODE è proprio $y_p(x)=c_1(x)y_1(x)+c_2(x)y_2(x)$.
+
+\noindent Tornando alla formula $V=V_0+V_p$ , possiamo notare di avere a disposizione gli elementi per calcolare $V$, che sarà uguale a $y_0(x)+y_p(x)$\footnotemark[3] e, genericamente, espresso con $y(x)$.
+
+\subsection{Considerazioni Finali}
+Dato un caso in cui $g(x)$ sia una combinazione di categorie di soluzione, ad esempio $g(x)=x^2+e^{2x}\sin{(4x)}$, che mette insieme le prime due categorie presentate, la risoluzione avverrà trattando le diverse categorie come termini noti di due diverse equazioni differenziali. Ad esempio, posta una ODE come $y''+2y'-4y=x^2+e^{2x}\sin{(4x)}$, risolveremo trattando separatamente $y''+2y'-4y=x^2$ e $y''+2y'-4y=e^{2x}\sin{(4x)}$.
+
+Il risultato della ODE iniziale sarà dato dalla somma tra l'integrale generale dell'omogenea associata ad essa e gli integrali particolari delle due ODE che abbiamo ricavato da quella iniziale. Quindi, posta $y_0(x)$ come integrale generale dell'omogenea associata, $y_{p1}(x)$ come integrale particolare di $y''+2y'-4y=x^2$, e $y_{p2}(x)$ come integrale particolare di $y''+2y'-4y=e^{2x}\sin{(4x)}$, l'integrale generale di $y''+2y'-4y=x^2+e^{2x}\sin{(4x)}$ sarà $y(x)=y_0(x)+y_{p1}(x)+y_{p2}(x)$.
+
+Ultimo aspetto da tenere in considerazione è il fatto che, per la seconda categoria, il coefficiente $\mu$ deve essere uguale sia per il seno che per il coseno, altrimenti è necessario trattare l'ODE come nel caso appena presentato ($y(x)=y_0(x)+y_{p1}(x)+y_{p2}(x)$).
+\end{document}
