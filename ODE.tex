@@ -108,6 +108,12 @@ e le sue soluzioni saranno $\lambda = -1$, $\lambda = 2$ con molteplicità algeb
 \subsection[ODE Lineari Non Omogenee Particolari]{ODE Lineari Non Omogenee a Coefficienti Costanti e con Termini Noti Esponenziali, Polinomiali o Trigonometrici}
 In questa sezione consideriamo ODE di due categorie: quelle con termini noti dati da combinazioni di funzioni esponenziali e polinomiali, e quelle con termini noti dati da combinazioni di funzioni esponenziali, polinomiali e trigonometriche (esclusivamente seno e coseno).
 
+Si può dimostrare che la soluzione di una qualsiasi ODE lineare non omogenea è data da:
+\begin{equation}\label{eq:odegen}
+    V(x)=V_0(x)+V_p(x)
+\end{equation}
+dove $V_0(x)$ è la soluzione dell'omogenea associata all'ODE e $V_p(x)$ è una qualsiasi soluzione particolare dell'ODE non omogenea.
+
 \subsubsection[\texorpdfstring{$f(x)$ da Esponenziale e Polinomio}{f(x) da Esponenziale e Polinomio}]{Termine Noto Formato dal Prodotto di una Funzione Esponenziale e un Polinomio}
 Data un'ODE del tipo:
 \begin{equation*}
@@ -117,15 +123,15 @@ dove $p_m(x)$ è un polinomio di grado $m$, e data l'equazione caratteristica de
 \begin{equation*}
     P(\lambda) = \lambda^n + a_1\lambda^{n-1} + \ldots + a_{n-1}\lambda + a_n
 \end{equation*}
-se vale che $P(\lambda_1) \neq 0$ allora la soluzione generale dell'ODE sarà:
+se vale che $P(\lambda_1) \neq 0$ allora un integrale particolare dell'ODE sarà:
 \begin{equation*}
-    y(x) = e^{\lambda_1 x}q_m(x)
+    y_p(x) = e^{\lambda_1 x}q_m(x)
 \end{equation*}
 dove $q_m(x)$ è un polinomio generico di grado $m$ del tipo $q_m(x) = a_0x^m + a_1x^{m-1} + \ldots + a_{m-1}x+a_m$.
 
-Se invece vale che $P(\lambda_1) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1) = h$, allora una soluzione particolare dell'ODE sarà:
+Se invece vale che $P(\lambda_1) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1) = h$, allora un integrale particolare dell'ODE sarà:
 \begin{equation*}
-    y(x) = x^he^{\lambda_1 x}q_m(x)
+    y_p(x) = x^he^{\lambda_1 x}q_m(x)
 \end{equation*}
 dove $q_m(x)$ è un polinomio generico simile a quello definito sopra.
 
@@ -138,9 +144,9 @@ dove $p_m(x)$ e $r_k(x)$ sono due polinomi di grado, rispettivamente, $m$ e $k$,
 \begin{equation*}
     P(\lambda) = \lambda^n + a_1\lambda^{n-1} + \ldots + a_{n-1}\lambda + a_n
 \end{equation*}
-se vale che $P(\lambda_1 \pm i\mu) \neq 0$ allora la soluzione generale dell'ODE sarà:
+se vale che $P(\lambda_1 \pm i\mu) \neq 0$ allora un integrale particolare dell'ODE sarà:
 \begin{equation*}
-    y(x) = e^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
+    y_p(x) = e^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
 \end{equation*}
 dove $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono due polinomi generici di grado $\bar{m}$ e del tipo:
 \begin{equation*}
@@ -151,19 +157,13 @@ dove $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono due polinomi generici di grado $\b
 \end{equation*}
 È fondamentale tenere a mente che i coefficienti di $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono indipendenti tra loro.
 
-Se invece vale che $P(\lambda_1\pm i\mu) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1\pm i\mu) = h$ (notare come due soluzioni complesse coniugate tra loro contano come una per la molteplicità), allora la soluzione generale dell'ODE sarà:
+Se invece vale che $P(\lambda_1\pm i\mu) = 0$ e la sua molteplicità algebrica come soluzione è $ma(\lambda_1\pm i\mu) = h$ (notare come due soluzioni complesse coniugate tra loro contano come una per la molteplicità), allora un integrale particolare dell'ODE sarà:
 \begin{equation*}
-    y(x) = x^he^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
+    y_p(x) = x^he^{\lambda_1 x}[q_{\bar{m}}(x)\cos(\mu x) + s_{\bar{m}}(x)\sin(\mu x)], \quad \bar{m} = \max\{m,k\}
 \end{equation*}
 dove $q_{\bar{m}}(x)$ e $s_{\bar{m}}(x)$ sono due polinomi generici simili a quelli definiti sopra.
 
 \subsection[Metodo di Variazione delle Costanti]{ODE Lineari Non Omogenee con Termine Noto Generico (Metodo di Variazione delle Costanti)}
-Si può dimostrare che la soluzione di una qualsiasi ODE lineare non omogenea è data da:
-\begin{equation}\label{eq:odegen}
-    V(x)=V_0(x)+V_p(x)
-\end{equation}
-dove $V_0(x)$ è la soluzione dell'omogenea associata all'ODE e $V_p(x)$ è una qualsiasi soluzione particolare dell'ODE non omogenea.
-
 Data un'ODE del tipo:
 \begin{equation}\label{eq:ode}
     y'' + ay' + by = f(x)
